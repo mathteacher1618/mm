@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>毫米 (mm) - 香港小學數學</title>
+  <!-- 引入 html2canvas 程式庫以支援報告圖片下載 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    /* 全局樣式與 iPad 觸控優化 */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #f0f4f8;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      touch-action: manipulation;
+    }
+
+    /* 頂部導覽列 */
+    header {
+      background-color: #2b5278;
+      color: white;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .lang-btn {
+      background-color: transparent;
+      border: 1px solid white;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s;
+      min-height: 44px;
+    }
+
+    .lang-btn:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .page-title {
+      text-align: center;
+      font-size: 1.8rem;
+      color: #2b5278;
+      margin-bottom: 30px;
+      font-weight: bold;
+    }
+
+    /* 首頁選單網格 */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 30px 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 2px solid transparent;
+      min-height: 120px;
+    }
+
+    .card:hover, .card:active {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      border-color: #4a90e2;
+    }
+
+    .card h3 {
+      font-size: 1.4rem;
+      color: #1a365d;
+      margin-bottom: 15px;
+    }
+
+    .card p {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .card-center {
+      grid-column: 1 / -1;
+      justify-self: center;
+      width: 50%;
+    }
+
+    @media (max-width: 600px) {
+      .menu-grid { grid-template-columns: 1fr; }
+      .card-center { grid-column: auto; width: 100%; }
+    }
+
+    /* 練習界面 */
+    .quiz-wrapper {
+      max-width: 750px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .back-nav-btn {
+      background: white;
+      border: 1px solid #cbd5e0;
+      color: #4a5568;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+      transition: all 0.2s;
+      min-height: 44px;
+    }
+
+    .back-nav-btn:hover {
+      background-color: #edf2f7;
+      color: #2b6cb0;
+    }
+
+    .quiz-card {
+      background: white;
+      border-radius: 16px;
+      padding: 35px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+      width: 100%;
+    }
+
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #edf2f7;
+      padding-bottom: 12px;
+    }
+
+    .quiz-progress {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #3182ce;
+    }
+
+    .unit-tag {
+      background-color: #ebf8ff;
+      color: #2b6cb0;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.95rem;
+      font-weight: bold;
+    }
+
+    .diff-tag {
+      margin-left: 8px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    .diff-primary { background-color: #c6f6d5; color: #22543d; }
+    .diff-inter { background-color: #feebc8; color: #744210; }
+    .diff-adv { background-color: #fed7d7; color: #9b2c2c; }
+
+    /* 圖形量度區域 */
+    .measurement-display {
+      width: 100%;
+      background: #fafafa;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 15px 10px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow-x: auto;
+    }
+
+    .measurement-display svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .equation {
+      font-size: 1.6rem;
+      font-weight: bold;
+      text-align: center;
+      margin: 20px 0;
+      color: #2d3748;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* 隱藏數字輸入框的微調箭頭 */
+    .answer-input::-webkit-outer-spin-button,
+    .answer-input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    .answer-input[type=number] {
+      -moz-appearance: textfield;
+    }
+
+    .answer-input {
+      font-size: 1.6rem;
+      width: 100px;
+      text-align: center;
+      border: 2px solid #cbd5e0;
+      border-radius: 8px;
+      padding: 6px 6px;
+      outline: none;
+      transition: background-color 0.3s, border-color 0.2s;
+      min-height: 50px;
+    }
+
+    .answer-input:focus { border-color: #3182ce; }
+
+    /* 單元三動態反饋樣式 */
+    .input-correct {
+      background-color: #c6f6d5 !important;
+      border-color: #38a169 !important;
+      color: #22543d !important;
+    }
+
+    .input-wrong {
+      background-color: #fed7d7 !important;
+      border-color: #e53e3e !important;
+      animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+
+    .btn {
+      display: inline-block;
+      width: 100%;
+      padding: 14px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      text-align: center;
+      min-height: 48px;
+    }
+
+    .btn:active { transform: scale(0.99); }
+    .btn-primary { background-color: #3182ce; color: white; }
+    .btn-primary:hover { background-color: #2b6cb0; }
+    .btn-success { background-color: #38a169; color: white; }
+    .btn-success:hover { background-color: #2f855a; }
+    .btn-purple { background-color: #8e44ad; color: white; margin-bottom: 10px; }
+    .btn-purple:hover { background-color: #7d3c98; }
+    .btn-sky { background-color: #38bdf8; color: white; margin-bottom: 10px; }
+    .btn-sky:hover { background-color: #0284c7; }
+    .btn-gray { background-color: #7f8c8d; color: white; }
+    .btn-gray:hover { background-color: #636e72; }
+
+    /* 反饋與提示訊息 */
+    .feedback-box {
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 10px;
+      text-align: left;
+      font-size: 1rem;
+    }
+
+    .feedback-success { background-color: #c6f6d5; color: #22543d; border: 1px solid #9ae6b4; text-align: center; }
+    .feedback-warning { background-color: #feebc8; color: #744210; border: 1px solid #fbd38d; }
+    .feedback-danger { background-color: #fff5f5; color: #742a2a; border: 1px solid #feb2b2; }
+
+    /* 圖像化拆解圖表 */
+    .visual-diagram-container {
+      margin-top: 15px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .diagram-brace-top, .diagram-brace-bottom {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #2d3748;
+      margin: 4px 0;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .diagram-table {
+      display: flex;
+      border: 2px solid #000;
+      border-radius: 2px;
+      overflow: hidden;
+      margin: 8px 0;
+      max-width: 100%;
+      overflow-x: auto;
+    }
+
+    .diagram-column {
+      display: flex;
+      flex-direction: column;
+      min-width: 65px;
+      text-align: center;
+    }
+
+    .diagram-column:not(:last-child) {
+      border-right: 2px solid #000;
+    }
+
+    .diagram-cell-top {
+      background-color: #f4a2a1;
+      color: #000;
+      padding: 10px 6px;
+      font-weight: bold;
+      border-bottom: 2px solid #000;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .diagram-cell-bottom {
+      background-color: #fbe389;
+      color: #000;
+      padding: 10px 6px;
+      font-weight: bold;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* 分析報告界面 */
+    .report-card {
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      max-width: 650px;
+      margin: 0 auto;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .report-title {
+      text-align: center;
+      color: #3182ce;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+
+    .report-section { background-color: #f8fafc; border-radius: 8px; padding: 12px 20px; margin-bottom: 15px; }
+    .report-row { display: flex; justify-content: space-between; padding: 6px 0; color: #4a5568; font-size: 0.95rem; }
+    .report-row.dashed { border-bottom: 1px dashed #cbd5e0; }
+    .report-val { font-weight: bold; }
+    .val-green { color: #276749; }
+    .val-red { color: #9b2c2c; }
+    .val-blue { color: #0284c7; }
+
+    .section-label { font-weight: bold; color: #2d3748; margin: 15px 0 10px 0; font-size: 1rem; }
+    .list-box { border-radius: 8px; padding: 15px; margin-bottom: 15px; }
+    .list-box.correct-bg { background-color: #f7fafc; }
+    .list-box.wrong-bg { background-color: #f7fafc; }
+
+    .list-title { font-weight: bold; font-size: 1.05rem; display: flex; align-items: center; gap: 6px; margin-bottom: 12px; }
+
+    .item-card-correct {
+      background: #f0fff4; border: 1px solid #c6f6d5; border-radius: 8px; padding: 10px 16px; margin-bottom: 8px;
+      display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; color: #22543d; font-weight: 500;
+    }
+
+    .item-card-wrong {
+      background: #fff5f5; border: 1px solid #fed7d7; border-radius: 8px; padding: 10px 16px; margin-bottom: 8px;
+      display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; color: #9b2c2c; font-weight: 500;
+    }
+
+    /* Modal 彈窗 */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5);
+      display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+    }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .modal-box { background: white; padding: 25px; border-radius: 12px; max-width: 400px; width: 90%; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+    .modal-box h3 { margin-bottom: 12px; color: #2b5278; }
+    .modal-box p { margin-bottom: 20px; color: #4a5568; }
+    .modal-buttons { display: flex; gap: 10px; }
+    .hidden { display: none !important; }
+
+    @media (max-width: 768px) {
+      .quiz-card { padding: 20px 15px; }
+      .equation { font-size: 1.2rem; gap: 4px; }
+      .answer-input { font-size: 1.3rem; width: 75px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 頂部導覽列 -->
+  <header>
+    <h1 id="header-title">毫米 (mm)</h1>
+    <!-- 語言選擇按鈕：僅在首頁顯示 -->
+    <button id="lang-toggle-btn" class="lang-btn" onclick="toggleLanguage()">English</button>
+  </header>
+
+  <main>
+    <div class="container">
+
+      <!-- 1. 首頁選擇界面 -->
+      <div id="page-home">
+        <h2 id="home-subtitle" class="page-title">請選擇學習單元</h2>
+        <div class="menu-grid">
+          <div class="card" onclick="startQuiz('cm_to_mm')">
+            <h3 id="opt1-title">厘米 → 毫米</h3>
+            <p id="desc-opt1">學習厘米轉換為毫米。掌握 1 cm = 10 mm 的單向換算技巧。</p>
+          </div>
+          <div class="card" onclick="startQuiz('complex_to_single')">
+            <h3 id="opt2-title">複名數 → 單名數</h3>
+            <p id="desc-opt2">將複合單位（厘米和毫米）轉換為單一單位（毫米），例如：4 厘米 3 毫米 = 43 毫米。</p>
+          </div>
+          <div class="card card-center" onclick="startQuiz('measurement')">
+            <h3 id="opt3-title">量度</h3>
+            <p id="desc-opt3">看圖讀取 15 厘米間尺上的物件長度，並轉換為毫米表達！</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 答題界面 -->
+      <div id="page-quiz" class="hidden">
+        <div class="quiz-wrapper">
+          <button class="back-nav-btn" onclick="askReturnHome()">
+            <span id="lbl-back-btn">← 返回階段選擇</span>
+          </button>
+
+          <div class="quiz-card">
+            <div class="quiz-header">
+              <div>
+                <span id="quiz-mode-name" class="unit-tag">量度</span>
+                <span id="quiz-diff-tag" class="diff-tag diff-primary">初階</span>
+              </div>
+              <span id="quiz-progress-text" class="quiz-progress">題目 1 / 10</span>
+            </div>
+
+            <!-- 單元三 SVG 測量圖片容器 -->
+            <div id="measurement-area" class="measurement-display hidden"></div>
+
+            <!-- 算式表達區：單元一二為單輸入框，單元三為三個輸入框橫式 -->
+            <div class="equation">
+              <span id="equation-prefix">長 </span>
+              
+              <!-- 單元一/二 使用之單一輸入框 -->
+              <span id="single-input-container">
+                <input type="number" id="answer-input" class="answer-input" min="0" placeholder="答案" autocomplete="off" inputmode="numeric" onkeypress="handleKeyPress(event)" oninput="cleanPositiveInput(this)" onwheel="this.blur()">
+              </span>
+
+              <!-- 單元三 使用之三個輸入框橫式：(右端) - (左端) = (長度) -->
+              <span id="multi-input-container" class="hidden" style="display: inline-flex; align-items: center; gap: 6px;">
+                <input type="number" id="input-right" class="answer-input" min="0" placeholder="右端" autocomplete="off" inputmode="numeric" onkeypress="handleKeyPress(event)" oninput="cleanPositiveInput(this)" onwheel="this.blur()">
+                <span>-</span>
+                <input type="number" id="input-left" class="answer-input" min="0" placeholder="左端" autocomplete="off" inputmode="numeric" onkeypress="handleKeyPress(event)" oninput="cleanPositiveInput(this)" onwheel="this.blur()">
+                <span>=</span>
+                <input type="number" id="input-length" class="answer-input" min="0" placeholder="長度" autocomplete="off" inputmode="numeric" onkeypress="handleKeyPress(event)" oninput="cleanPositiveInput(this)" onwheel="this.blur()">
+              </span>
+
+              <span id="unit-label">毫米</span>
+            </div>
+
+            <div id="action-area">
+              <button id="btn-submit" class="btn btn-primary" onclick="checkAnswer()">提交答案</button>
+              <button id="btn-next" class="btn btn-success hidden" onclick="nextQuestion()">再答一題 ➔</button>
+            </div>
+
+            <div id="feedback-area" class="hidden"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 表現分析報告 -->
+      <div id="page-report" class="hidden">
+        <div id="report-card-to-capture" class="report-card">
+          <h2 id="report-main-title" class="report-title">練習完成！表現分析報告</h2>
+
+          <div class="report-section">
+            <div class="report-row dashed">
+              <span id="lbl-start-time">開始時間：</span>
+              <span id="val-start-time" class="report-val">--</span>
+            </div>
+            <div class="report-row dashed">
+              <span id="lbl-end-time">完成時間：</span>
+              <span id="val-end-time" class="report-val">--</span>
+            </div>
+            <div class="report-row">
+              <span id="lbl-duration">總用時：</span>
+              <span id="val-duration" class="report-val val-blue">--</span>
+            </div>
+          </div>
+
+          <div class="report-section">
+            <div class="report-row dashed">
+              <span id="lbl-total-correct">總答對題數：</span>
+              <span id="val-correct-count" class="report-val val-green">0 / 10</span>
+            </div>
+            <div class="report-row">
+              <span id="lbl-accuracy">整體正確率：</span>
+              <span id="val-accuracy" class="report-val">0%</span>
+            </div>
+          </div>
+
+          <div class="section-label" id="lbl-mastery-title">各主題掌握度分析</div>
+          <div class="report-section">
+            <div class="report-row">
+              <span id="report-unit-name">1. 量度</span>
+              <span id="val-unit-mastery" class="report-val">0 / 10 (0%)</span>
+            </div>
+          </div>
+
+          <div class="list-box correct-bg">
+            <div class="list-title val-green">
+              <span>☑</span> <span id="lbl-correct-title">答對的題目</span>
+            </div>
+            <div id="correct-list-container"></div>
+          </div>
+
+          <div class="list-box wrong-bg">
+            <div class="list-title val-red">
+              <span>✕</span> <span id="lbl-wrong-title">答錯 / 需要協助的題目</span>
+            </div>
+            <div id="wrong-list-container"></div>
+          </div>
+
+          <div data-html2canvas-ignore="true" style="margin-top: 20px;">
+            <button class="btn btn-purple" onclick="downloadReportImage()"><span id="lbl-btn-download">💾 下載報告圖片</span></button>
+            <button class="btn btn-sky" onclick="retryPractice()"><span id="lbl-btn-retry">🔄 我想再試</span></button>
+            <button class="btn btn-gray" onclick="goHome()"><span id="lbl-btn-home">回到主頁重新選擇</span></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 通用 Modal -->
+  <div id="custom-modal" class="modal-overlay">
+    <div class="modal-box">
+      <h3 id="modal-title">標題</h3>
+      <p id="modal-msg">內容訊息</p>
+      <div class="modal-buttons">
+        <button id="modal-cancel-btn" class="btn btn-gray" style="flex: 1;" onclick="closeModal()">取消</button>
+        <button id="modal-confirm-btn" class="btn btn-primary" style="flex: 1;" onclick="confirmModalAction()">確定</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const i18n = {
+      zh: {
+        headerTitle: "毫米 (mm)",
+        langBtn: "English",
+        homeSubtitle: "請選擇學習單元",
+        opt1Title: "厘米 → 毫米",
+        descOpt1: "學習厘米轉換為毫米。掌握 1 cm = 10 mm 的單向換算技巧。",
+        opt2Title: "複名數 → 單名數",
+        descOpt2: "將複合單位（厘米和毫米）轉換為單一單位（毫米），例如：4 厘米 3 毫米 = 43 毫米。",
+        opt3Title: "量度",
+        descOpt3: "看圖讀取 15 厘米間尺上的物件長度，並轉換為毫米表達！",
+        unit1: "厘米 → 毫米",
+        unit2: "複名數 → 單名數",
+        unit3: "量度",
+        diffPrimary: "初階",
+        diffInter: "中階",
+        diffAdv: "高階",
+        qProgress: "題目",
+        questionLabel: "第 {n} 題",
+        ansLabel: "答案",
+        yourAnsLabel: "你的回答",
+        correctAnsLabel: "正確答案",
+        backBtn: "← 返回階段選擇",
+        placeholderAns: "答案",
+        placeholderRight: "右端",
+        placeholderLeft: "左端",
+        placeholderLength: "長度",
+        submitBtn: "提交答案",
+        nextBtn: "再答一題 ➔",
+        prefixLength: "長 ",
+        unitMm: "毫米",
+        unitCm: "厘米",
+        praise: ["太棒了！答對了！🌟", "非常優秀，讀數與計算得很精確！👏", "答對了！繼續保持！🎉", "真聰明！完全掌握了毫米量度！💪"],
+        encourage: ["再試一次！仔細觀察虛線指向間尺的刻度喔！", "沒關係，重新計算間尺兩端的差值，你可以的！", "加油！注意刻度之間的毫米數！"],
+        hintCmToMm: "解題思路：1 厘米 (cm) = 10 毫米 (mm)，將厘米數乘以 10 即可。",
+        hintComplex: "解題思路：先將厘米部分乘以 10 化為毫米，再加上剩餘的毫米數。",
+        hintMmToCm: "解題思路：10 毫米 (mm) = 1 厘米 (cm)，將毫米數除以 10 即可。",
+        hintMeasure: "解題思路：看清右端與左端指向的毫米刻度，橫式為：右端刻度 - 左端刻度 = 長度。",
+        stepTitle: "完整解題過程與圖像化拆解：",
+        stepCmToMm: `
+          1. 記住長度單位公式：<strong>1 cm = 10 mm</strong>。<br>
+          2. 計算：<strong>{num} × 10</strong> = <strong>{ans}</strong>。<br>
+          3. 得出正確答案為：<strong style="color:#e53e3e; font-size:1.2rem;">{ans} mm</strong>
+        `,
+        stepMmToCm: `
+          1. 記住長度單位公式：<strong>10 mm = 1 cm</strong>。<br>
+          2. 計算：<strong>{num} ÷ 10</strong> = <strong>{ans}</strong>。<br>
+          3. 得出正確答案為：<strong style="color:#e53e3e; font-size:1.2rem;">{ans} cm</strong>
+        `,
+        stepComplex: `
+          1. 分拆計算：<strong>{cm} cm = {cmVal} mm</strong>。<br>
+          2. 相加總和：<strong>{cmVal} + {mm}</strong> = <strong>{ans}</strong>。<br>
+          3. 得出正確答案為：<strong style="color:#e53e3e; font-size:1.2rem;">{ans} mm</strong>
+        `,
+        stepMeasure: `
+          1. 物件左端位置：<strong>{start} mm</strong> ({startCm} cm)。<br>
+          2. 物件右端位置：<strong>{end} mm</strong> ({endCm} cm)。<br>
+          3. 計算長度：<strong>{end} - {start} = {ans} mm</strong>。<br>
+          4. 得出正確答案為：<strong style="color:#e53e3e; font-size:1.2rem;">{end} - {start} = {ans} mm</strong>
+        `,
+        diagramMeasureDetail: `
+          • 左端對齊刻度：<strong>{start} mm</strong> ({startCm} cm)<br>
+          • 右端對齊刻度：<strong>{end} mm</strong> ({endCm} cm)<br>
+          • 橫式計算：<strong>{end} - {start} = <span style="color:#e53e3e; font-size:1.2rem;">{ans} mm</span></strong>
+        `,
+        noWrong: "太厲害了！沒有答錯的題目！",
+        noCorrect: "無答對題目",
+        reportTitle: "練習完成！表現分析報告",
+        startTime: "開始時間：",
+        endTime: "完成時間：",
+        durationTime: "總用時：",
+        totalCorrect: "總答對題數：",
+        accuracy: "整體正確率：",
+        masteryTitle: "各主題掌握度分析",
+        correctTitle: "答對的題目",
+        wrongTitle: "答錯 / 需要協助的題目",
+        btnDownload: "💾 下載報告圖片",
+        btnRetry: "🔄 我想再試",
+        btnHome: "回到主頁重新選擇",
+        modalReturnTitle: "返回階段選擇",
+        modalReturnMsg: "確定要返回主選單嗎？目前的答題進度將不會被保存。",
+        diagramTitle: "圖像化解題拆解：",
+        modalCancel: "取消",
+        modalStart: "確定",
+        howManyMm: "多少 mm ？",
+        howManyCm: "多少 cm ？",
+        itemsName: {
+          crayon: "蠟筆",
+          pencil: "鉛筆",
+          paperclip: "回形針",
+          eraser: "橡皮擦",
+          key: "鑰匙",
+          battery: "電池",
+          staple: "訂書針",
+          lollipop: "棒棒糖",
+          shuttlecock: "羽毛球",
+          usb: "隨身碟",
+          pointer: "簡報筆",
+          bookmark: "書籤"
+        }
+      },
+      en: {
+        headerTitle: "Millimetre (mm)",
+        langBtn: "繁體中文",
+        homeSubtitle: "Please Select a Learning Unit",
+        opt1Title: "cm → mm",
+        descOpt1: "Learn converting centimetres to millimetres using 1 cm = 10 mm.",
+        opt2Title: "Compound → Single Unit",
+        descOpt2: "Convert compound units (cm & mm) into a single unit (mm). e.g., 4 cm 3 mm = 43 mm.",
+        opt3Title: "Measurement",
+        descOpt3: "Read object lengths on a 15 cm ruler from images and express in mm!",
+        unit1: "cm → mm",
+        unit2: "Compound → Single Unit",
+        unit3: "Measurement",
+        diffPrimary: "Basic",
+        diffInter: "Inter",
+        diffAdv: "Adv",
+        qProgress: "Question",
+        questionLabel: "Q{n}",
+        ansLabel: "Ans",
+        yourAnsLabel: "Your Ans",
+        correctAnsLabel: "Correct Ans",
+        backBtn: "← Back to Stage Selection",
+        placeholderAns: "Ans",
+        placeholderRight: "Right",
+        placeholderLeft: "Left",
+        placeholderLength: "Length",
+        submitBtn: "Submit Answer",
+        nextBtn: "Next Question ➔",
+        prefixLength: "Length: ",
+        unitMm: "mm",
+        unitCm: "cm",
+        praise: ["Great job! That's correct! 🌟", "Excellent measurement reading! 👏", "Correct! Keep it up! 🎉", "Awesome! Mastered mm measurement! 💪"],
+        encourage: ["Try again! Look closely at the dashed lines pointing to ruler ticks!", "It's okay, calculate the difference between endpoints again!", "Keep going! Pay attention to the millimeter marks!"],
+        hintCmToMm: "Solution Hint: 1 cm = 10 mm. Multiply the number of cm by 10.",
+        hintComplex: "Solution Hint: Convert the cm part to mm (multiply by 10) first, then add the remaining mm.",
+        hintMmToCm: "Solution Hint: 10 mm = 1 cm. Divide the number of mm by 10.",
+        hintMeasure: "Solution Hint: Read right and left mm markings. Equation: Right mark - Left mark = Length.",
+        stepTitle: "Solution & Visual Breakdown:",
+        stepCmToMm: `
+          1. Formula: <strong>1 cm = 10 mm</strong>.<br>
+          2. Calculate: <strong>{num} × 10</strong> = <strong>{ans}</strong>.<br>
+          3. Correct answer: <strong style="color:#e53e3e; font-size:1.2rem;">{ans} mm</strong>
+        `,
+        stepMmToCm: `
+          1. Formula: <strong>10 mm = 1 cm</strong>.<br>
+          2. Calculate: <strong>{num} ÷ 10</strong> = <strong>{ans}</strong>.<br>
+          3. Correct answer: <strong style="color:#e53e3e; font-size:1.2rem;">{ans} cm</strong>
+        `,
+        stepComplex: `
+          1. Convert cm part: <strong>{cm} cm = {cmVal} mm</strong>.<br>
+          2. Add together: <strong>{cmVal} + {mm}</strong> = <strong>{ans}</strong>.<br>
+          3. Correct answer: <strong style="color:#e53e3e; font-size:1.2rem;">{ans} mm</strong>
+        `,
+        stepMeasure: `
+          1. Left position: <strong>{start} mm</strong> ({startCm} cm).<br>
+          2. Right position: <strong>{end} mm</strong> ({endCm} cm).<br>
+          3. Calculate length: <strong>{end} - {start} = {ans} mm</strong>.<br>
+          4. Correct answer: <strong style="color:#e53e3e; font-size:1.2rem;">{end} - {start} = {ans} mm</strong>
+        `,
+        diagramMeasureDetail: `
+          • Left mark alignment: <strong>{start} mm</strong> ({startCm} cm)<br>
+          • Right mark alignment: <strong>{end} mm</strong> ({endCm} cm)<br>
+          • Equation calculation: <strong>{end} - {start} = <span style="color:#e53e3e; font-size:1.2rem;">{ans} mm</span></strong>
+        `,
+        noWrong: "Amazing! No incorrect answers!",
+        noCorrect: "No correct questions",
+        reportTitle: "Practice Completed! Performance Report",
+        startTime: "Start Time:",
+        endTime: "Completion Time:",
+        durationTime: "Time Taken:",
+        totalCorrect: "Total Correct:",
+        accuracy: "Overall Accuracy:",
+        masteryTitle: "Topic Mastery Analysis",
+        correctTitle: "Correct Questions",
+        wrongTitle: "Incorrect / Needs Assistance",
+        btnDownload: "💾 Download Report Image",
+        btnRetry: "🔄 Try Again",
+        btnHome: "Back to Home",
+        modalReturnTitle: "Return to Stage Selection",
+        modalReturnMsg: "Are you sure you want to return to home? Current progress will be lost.",
+        diagramTitle: "Visual Breakdown Diagram:",
+        modalCancel: "Cancel",
+        modalStart: "Confirm",
+        howManyMm: "How many mm ?",
+        howManyCm: "How many cm ?",
+        itemsName: {
+          crayon: "Crayon",
+          pencil: "Pencil",
+          paperclip: "Paperclip",
+          eraser: "Eraser",
+          key: "Key",
+          battery: "Battery",
+          staple: "Staple",
+          lollipop: "Lollipop",
+          shuttlecock: "Shuttlecock",
+          usb: "USB Drive",
+          pointer: "Pointer",
+          bookmark: "Bookmark"
+        }
+      }
+    };
+
+    let currentLang = 'zh';
+    let currentMode = '';
+    let questions = [];
+    let currentQIndex = 0;
+    let wrongAttempts = 0;
+    let records = [];
+    let startTimeObj = null;
+    let modalActionCallback = null;
+
+    // 限制數字輸入框只能輸入正整數
+    function cleanPositiveInput(input) {
+      input.value = input.value.replace(/[^0-9]/g, '');
+    }
+
+    function handleKeyPress(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const submitBtn = document.getElementById('btn-submit');
+        const nextBtn = document.getElementById('btn-next');
+        
+        if (!submitBtn.classList.contains('hidden')) {
+          checkAnswer();
+        } else if (!nextBtn.classList.contains('hidden')) {
+          nextQuestion();
+        }
+        return;
+      }
+      if (['-', '+', '.', 'e', 'E'].includes(e.key)) {
+        e.preventDefault();
+      }
+    }
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'zh' ? 'en' : 'zh';
+      const t = i18n[currentLang];
+      
+      document.getElementById('header-title').innerText = t.headerTitle;
+      document.getElementById('lang-toggle-btn').innerText = t.langBtn;
+      document.getElementById('home-subtitle').innerText = t.homeSubtitle;
+      document.getElementById('opt1-title').innerText = t.opt1Title;
+      document.getElementById('desc-opt1').innerText = t.descOpt1;
+      document.getElementById('opt2-title').innerText = t.opt2Title;
+      document.getElementById('desc-opt2').innerText = t.descOpt2;
+      document.getElementById('opt3-title').innerText = t.opt3Title;
+      document.getElementById('desc-opt3').innerText = t.descOpt3;
+      document.getElementById('lbl-back-btn').innerText = t.backBtn;
+      document.getElementById('answer-input').placeholder = t.placeholderAns;
+      
+      document.getElementById('input-right').placeholder = t.placeholderRight;
+      document.getElementById('input-left').placeholder = t.placeholderLeft;
+      document.getElementById('input-length').placeholder = t.placeholderLength;
+
+      if (!document.getElementById('page-quiz').classList.contains('hidden')) {
+        updateQuestionDisplay();
+      }
+    }
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // 生成單元一題目
+    function generateUnit1Questions() {
+      const qList = [];
+      const usedNumbers = new Set();
+
+      const configs = [
+        { diff: 'primary', format: 'text' },
+        { diff: 'primary', format: 'text' },
+        { diff: 'primary', format: 'symbol' },
+        { diff: 'inter',   format: 'text' },
+        { diff: 'inter',   format: 'text' },
+        { diff: 'inter',   format: 'symbol' },
+        { diff: 'inter',   format: 'symbol' },
+        { diff: 'adv',     format: 'text' },
+        { diff: 'adv',     format: 'symbol' },
+        { diff: 'adv',     format: 'symbol' }
+      ];
+
+      // 按難度排序：初階 -> 中階 -> 高階
+      configs.sort((a, b) => {
+        const order = { 'primary': 1, 'inter': 2, 'adv': 3 };
+        return order[a.diff] - order[b.diff];
+      });
+
+      configs.forEach(cfg => {
+        let qObj = null;
+        while (!qObj) {
+          if (cfg.diff === 'primary') {
+            const cm = Math.floor(Math.random() * 9) + 1;
+            if (!usedNumbers.has('cm_' + cm)) {
+              usedNumbers.add('cm_' + cm);
+              qObj = {
+                type: 'cm_to_mm',
+                diff: 'primary',
+                format: cfg.format,
+                rawNum: cm,
+                ans: (cm * 10).toString(),
+                targetUnit: cfg.format === 'text' ? '毫米' : 'mm',
+                targetUnitEn: 'mm'
+              };
+            }
+          } else if (cfg.diff === 'inter') {
+            const cm = Math.floor(Math.random() * 89) + 11;
+            if (!usedNumbers.has('cm_' + cm)) {
+              usedNumbers.add('cm_' + cm);
+              qObj = {
+                type: 'cm_to_mm',
+                diff: 'inter',
+                format: cfg.format,
+                rawNum: cm,
+                ans: (cm * 10).toString(),
+                targetUnit: cfg.format === 'text' ? '毫米' : 'mm',
+                targetUnitEn: 'mm'
+              };
+            }
+          } else if (cfg.diff === 'adv') {
+            const cmVal = Math.floor(Math.random() * 9) + 1;
+            const mm = cmVal * 10;
+            if (!usedNumbers.has('mm_' + mm)) {
+              usedNumbers.add('mm_' + mm);
+              qObj = {
+                type: 'mm_to_cm',
+                diff: 'adv',
+                format: cfg.format,
+                rawNum: mm,
+                ans: cmVal.toString(),
+                targetUnit: cfg.format === 'text' ? '厘米' : 'cm',
+                targetUnitEn: 'cm'
+              };
+            }
+          }
+        }
+        qList.push(qObj);
+      });
+
+      return qList;
+    }
+
+    // 生成單元二題目
+    function generateUnit2Questions() {
+      const qList = [];
+      const tracker = new Set();
+
+      const configs = [
+        { diff: 'primary', format: 'text' },
+        { diff: 'primary', format: 'text' },
+        { diff: 'primary', format: 'symbol' },
+        { diff: 'inter',   format: 'text' },
+        { diff: 'inter',   format: 'text' },
+        { diff: 'inter',   format: 'symbol' },
+        { diff: 'inter',   format: 'symbol' },
+        { diff: 'adv',     format: 'text' },
+        { diff: 'adv',     format: 'symbol' },
+        { diff: 'adv',     format: 'symbol' }
+      ];
+
+      // 按難度排序：初階 -> 中階 -> 高階
+      configs.sort((a, b) => {
+        const order = { 'primary': 1, 'inter': 2, 'adv': 3 };
+        return order[a.diff] - order[b.diff];
+      });
+
+      configs.forEach(cfg => {
+        let qObj = null;
+        while (!qObj) {
+          let cm = 0;
+          let mm = Math.floor(Math.random() * 9) + 1;
+
+          if (cfg.diff === 'primary') {
+            cm = Math.floor(Math.random() * 9) + 1;
+          } else if (cfg.diff === 'inter') {
+            do {
+              cm = Math.floor(Math.random() * 89) + 11;
+            } while (cm % 10 === 0);
+          } else if (cfg.diff === 'adv') {
+            const tens = Math.floor(Math.random() * 9) + 1;
+            cm = tens * 10;
+          }
+
+          const key = `${cm}_${mm}`;
+          if (!tracker.has(key)) {
+            tracker.add(key);
+            const total = cm * 10 + mm;
+            qObj = {
+              type: 'complex_to_single',
+              diff: cfg.diff,
+              format: cfg.format,
+              cmVal: cm,
+              mmVal: mm,
+              ans: total.toString(),
+              targetUnit: cfg.format === 'text' ? '毫米' : 'mm',
+              targetUnitEn: 'mm'
+            };
+          }
+        }
+        qList.push(qObj);
+      });
+
+      return qList;
+    }
+
+    // 生成單元三題目（按難度低到高嚴格排序：3初階 ➔ 4中階 ➔ 3高階，多元物件不重複）
+    function generateUnit3Questions() {
+      const qList = [];
+      const usedCombos = new Set();
+      
+      // 12 種多元生活物件清單
+      const availableObjects = shuffleArray([
+        'crayon', 'pencil', 'paperclip', 'eraser', 'key', 'battery',
+        'staple', 'lollipop', 'shuttlecock', 'usb', 'pointer', 'bookmark'
+      ]);
+
+      // 嚴格按難度由低至高設定（第1-3題初階，第4-7題中階，第8-10題高階）
+      const configs = [
+        { diff: 'primary' }, { diff: 'primary' }, { diff: 'primary' },               // 3 題初階
+        { diff: 'inter' },   { diff: 'inter' },   { diff: 'inter' },   { diff: 'inter' }, // 4 題中階
+        { diff: 'adv' },     { diff: 'adv' },     { diff: 'adv' }                        // 3 題高階
+      ];
+
+      configs.forEach((cfg, idx) => {
+        let qObj = null;
+        while (!qObj) {
+          let startMM = 0;
+          let lengthMM = 0;
+          const itemType = availableObjects[idx % availableObjects.length];
+
+          if (cfg.diff === 'primary') {
+            startMM = 0; // 左端對齊 0
+            const cmLen = Math.floor(Math.random() * 11) + 3; // 右端對齊整數 cm (3 ~ 13 cm)
+            lengthMM = cmLen * 10;
+          } else if (cfg.diff === 'inter') {
+            startMM = 0; // 左端對齊 0
+            do {
+              lengthMM = Math.floor(Math.random() * 109) + 31; // 右端不對齊整數厘米 (31 ~ 139 mm)
+            } while (lengthMM % 10 === 0);
+          } else if (cfg.diff === 'adv') {
+            // 左端不對齊 0 (12~58 mm)，右端也不對齊整數厘米
+            do {
+              startMM = Math.floor(Math.random() * 47) + 12;
+            } while (startMM % 10 === 0);
+
+            do {
+              lengthMM = Math.floor(Math.random() * 70) + 25;
+            } while (lengthMM % 10 === 0 || (startMM + lengthMM) % 10 === 0 || (startMM + lengthMM) > 145);
+          }
+
+          const endMM = startMM + lengthMM;
+          const key = `${startMM}_${endMM}`;
+
+          if (!usedCombos.has(key)) {
+            usedCombos.add(key);
+            qObj = {
+              type: 'measurement',
+              diff: cfg.diff,
+              itemType: itemType,
+              startMM: startMM,
+              endMM: endMM,
+              ans: lengthMM.toString(),
+              targetUnit: '毫米',
+              targetUnitEn: 'mm'
+            };
+          }
+        }
+        qList.push(qObj);
+      });
+
+      return qList;
+    }
+
+    function generateQuestions(mode) {
+      if (mode === 'cm_to_mm') {
+        return generateUnit1Questions();
+      } else if (mode === 'complex_to_single') {
+        return generateUnit2Questions();
+      } else if (mode === 'measurement') {
+        return generateUnit3Questions();
+      }
+      return [];
+    }
+
+    // 動態繪製單元三 15 厘米間尺與 12 種多元物件量度圖 (SVG)
+    function renderMeasurementSVG(q) {
+      const container = document.getElementById('measurement-area');
+      container.innerHTML = '';
+
+      const svgWidth = 680;
+      const svgHeight = 170;
+      const rulerX = 40;
+      const rulerY = 85;
+      const rulerWidth = 600; // 15 cm = 600px, 1mm = 4px
+      const rulerHeight = 65;
+      const pxPerMM = rulerWidth / 150;
+
+      const startX = rulerX + q.startMM * pxPerMM;
+      const endX = rulerX + q.endMM * pxPerMM;
+      const objectY = 25;
+
+      let svgHtml = `<svg width="${svgWidth}" height="${svgHeight}" viewBox="0 0 ${svgWidth} ${svgHeight}" xmlns="http://www.w3.org/2000/svg">`;
+
+      // 1. 繪製垂直輔助虛線
+      svgHtml += `
+        <line x1="${startX}" y1="10" x2="${startX}" y2="${rulerY + 25}" stroke="#555" stroke-width="1.8" stroke-dasharray="4 3" />
+        <line x1="${endX}" y1="10" x2="${endX}" y2="${rulerY + 25}" stroke="#555" stroke-width="1.8" stroke-dasharray="4 3" />
+      `;
+
+      // 2. 多元擬真物件繪製 (12 種常見物件)
+      const objW = endX - startX;
+      svgHtml += `<g transform="translate(${startX}, ${objectY})">`;
+
+      if (q.itemType === 'crayon') { // 藍色蠟筆
+        svgHtml += `
+          <rect x="0" y="5" width="${objW - 18}" height="32" rx="3" fill="#2b6cb0" stroke="#1a365d" stroke-width="1.5"/>
+          <path d="M ${objW - 18} 5 L ${objW} 21 L ${objW - 18} 37 Z" fill="#2b6cb0" stroke="#1a365d" stroke-width="1.5"/>
+          <rect x="8" y="5" width="${Math.max(0, objW - 34)}" height="32" fill="#4299e1" opacity="0.8"/>
+          <path d="M 15 12 Q 25 8 35 12 Q 45 16 55 12" stroke="#ffffff" stroke-width="2" fill="none" opacity="0.6"/>
+        `;
+      } else if (q.itemType === 'pencil') { // 黃色木鉛筆
+        svgHtml += `
+          <rect x="0" y="8" width="14" height="26" fill="#e53e3e" rx="2"/>
+          <rect x="14" y="8" width="10" height="26" fill="#cbd5e0"/>
+          <rect x="24" y="8" width="${Math.max(0, objW - 46)}" height="26" fill="#ecc94b" stroke="#d69e2e" stroke-width="1"/>
+          <path d="M ${objW - 22} 8 L ${objW} 21 L ${objW - 22} 34 Z" fill="#f6ad55"/>
+          <path d="M ${objW - 7} 16.5 L ${objW} 21 L ${objW - 7} 25.5 Z" fill="#2d3748"/>
+        `;
+      } else if (q.itemType === 'paperclip') { // 金屬回形針
+        svgHtml += `
+          <rect x="0" y="4" width="${objW}" height="28" rx="14" fill="none" stroke="#4a5568" stroke-width="5"/>
+          <rect x="8" y="10" width="${Math.max(0, objW - 16)}" height="16" rx="8" fill="none" stroke="#718096" stroke-width="4"/>
+        `;
+      } else if (q.itemType === 'eraser') { // 藍白橡皮擦
+        svgHtml += `
+          <rect x="0" y="2" width="${objW}" height="32" rx="4" fill="#edf2f7" stroke="#cbd5e0" stroke-width="2"/>
+          <rect x="0" y="2" width="${objW * 0.6}" height="32" rx="4" fill="#3182ce"/>
+          <text x="${objW * 0.3}" y="23" font-size="12" fill="#ffffff" font-weight="bold" text-anchor="middle">ERASER</text>
+        `;
+      } else if (q.itemType === 'key') { // 金色鑰匙
+        svgHtml += `
+          <circle cx="14" cy="20" r="14" fill="#d69e2e" stroke="#b7791f" stroke-width="2"/>
+          <circle cx="14" cy="20" r="5" fill="#fafafa"/>
+          <rect x="24" y="16" width="${Math.max(0, objW - 24)}" height="8" fill="#d69e2e" stroke="#b7791f" stroke-width="1.5"/>
+          <rect x="${objW - 16}" y="24" width="5" height="7" fill="#d69e2e"/>
+          <rect x="${objW - 7}" y="24" width="5" height="9" fill="#d69e2e"/>
+        `;
+      } else if (q.itemType === 'battery') { // 電池
+        svgHtml += `
+          <rect x="0" y="4" width="${Math.max(0, objW - 6)}" height="30" rx="3" fill="#319795" stroke="#234e52" stroke-width="1.5"/>
+          <rect x="${Math.max(0, objW - 6)}" y="12" width="6" height="14" rx="1" fill="#cbd5e0"/>
+          <text x="${(objW-6)/2}" y="24" font-size="12" font-weight="bold" fill="#ffffff" text-anchor="middle">+ BATTERY -</text>
+        `;
+      } else if (q.itemType === 'staple') { // 訂書針盒/針
+        svgHtml += `
+          <rect x="0" y="8" width="${objW}" height="24" rx="2" fill="#a0aec0" stroke="#4a5568" stroke-width="2"/>
+          <line x1="0" y1="16" x2="${objW}" y2="16" stroke="#edf2f7" stroke-width="1.5" stroke-dasharray="3 2"/>
+        `;
+      } else if (q.itemType === 'lollipop') { // 圓形棒棒糖
+        const headR = 16;
+        svgHtml += `
+          <rect x="0" y="18" width="${Math.max(0, objW - headR*2)}" height="5" fill="#e2e8f0" stroke="#cbd5e0"/>
+          <circle cx="${objW - headR}" cy="20" r="${headR}" fill="#ed64a6" stroke="#b83280" stroke-width="2"/>
+          <circle cx="${objW - headR}" cy="20" r="9" fill="none" stroke="#ffffff" stroke-width="3" opacity="0.7"/>
+        `;
+      } else if (q.itemType === 'shuttlecock') { // 羽毛球
+        svgHtml += `
+          <path d="M 0 5 L ${objW - 14} 12 L ${objW - 14} 28 L 0 35 Z" fill="#ffffff" stroke="#cbd5e0" stroke-width="1.5"/>
+          <path d="M ${objW - 14} 12 C ${objW} 12, ${objW} 28, ${objW - 14} 28 Z" fill="#e53e3e"/>
+          <line x1="${objW * 0.4}" y1="10" x2="${objW * 0.4}" y2="30" stroke="#cbd5e0" stroke-width="1.5"/>
+        `;
+      } else if (q.itemType === 'usb') { // 金屬隨身碟
+        svgHtml += `
+          <rect x="0" y="10" width="16" height="20" fill="#cbd5e0" stroke="#718096" stroke-width="1.5"/>
+          <rect x="4" y="14" width="4" height="4" fill="#a0aec0"/>
+          <rect x="4" y="22" width="4" height="4" fill="#a0aec0"/>
+          <rect x="16" y="6" width="${Math.max(0, objW - 16)}" height="28" rx="4" fill="#4a5568" stroke="#2d3748" stroke-width="1.5"/>
+        `;
+      } else if (q.itemType === 'pointer') { // 簡報筆
+        svgHtml += `
+          <rect x="0" y="10" width="${Math.max(0, objW - 10)}" height="20" rx="10" fill="#2d3748"/>
+          <circle cx="${Math.max(0, objW - 10) * 0.4}" cy="20" r="3" fill="#e53e3e"/>
+          <polygon points="${objW - 10},15 ${objW},20 ${objW - 10},25" fill="#e53e3e"/>
+        `;
+      } else { // 絲帶書籤
+        svgHtml += `
+          <rect x="0" y="8" width="${objW}" height="24" fill="#dd6b20" stroke="#c05621" stroke-width="1.5"/>
+          <path d="M 0 8 L 10 20 L 0 32 Z" fill="#fafafa"/>
+        `;
+      }
+
+      svgHtml += `</g>`;
+
+      // 3. 繪製 15cm 淡紫色質感間尺
+      svgHtml += `
+        <rect x="${rulerX - 10}" y="${rulerY}" width="${rulerWidth + 20}" height="${rulerHeight}" rx="8" fill="#e9d8fd" stroke="#d6bcfa" stroke-width="2" />
+        <rect x="${rulerX - 10}" y="${rulerY}" width="${rulerWidth + 20}" height="14" fill="#ffffff" opacity="0.3" />
+      `;
+
+      // 4. 繪製毫米刻度與厘米數字
+      for (let i = 0; i <= 150; i++) {
+        const x = rulerX + i * pxPerMM;
+        if (i % 10 === 0) {
+          const cmNum = i / 10;
+          svgHtml += `<line x1="${x}" y1="${rulerY}" x2="${x}" y2="${rulerY + 28}" stroke="#2d3748" stroke-width="1.8" />`;
+          svgHtml += `<text x="${x}" y="${rulerY + 48}" font-size="15" font-weight="bold" fill="#1a202c" text-anchor="middle">${cmNum}</text>`;
+          if (cmNum === 0) {
+            svgHtml += `<text x="${x + 24}" y="${rulerY + 48}" font-size="12" font-weight="500" fill="#4a5568" text-anchor="middle">cm</text>`;
+          }
+        } else if (i % 5 === 0) {
+          svgHtml += `<line x1="${x}" y1="${rulerY}" x2="${x}" y2="${rulerY + 18}" stroke="#4a5568" stroke-width="1.2" />`;
+        } else {
+          svgHtml += `<line x1="${x}" y1="${rulerY}" x2="${x}" y2="${rulerY + 11}" stroke="#718096" stroke-width="0.9" />`;
+        }
+      }
+
+      svgHtml += `</svg>`;
+      container.innerHTML = svgHtml;
+    }
+
+    function startQuiz(mode) {
+      currentMode = mode;
+      questions = generateQuestions(mode);
+      currentQIndex = 0;
+      records = [];
+      startTimeObj = new Date();
+
+      document.getElementById('page-home').classList.add('hidden');
+      document.getElementById('page-report').classList.add('hidden');
+      document.getElementById('page-quiz').classList.remove('hidden');
+      
+      // 進入練習時隱藏語言切換按鈕
+      document.getElementById('lang-toggle-btn').classList.add('hidden');
+
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      wrongAttempts = 0;
+      document.getElementById('feedback-area').classList.add('hidden');
+      document.getElementById('feedback-area').innerHTML = '';
+      
+      const singleContainer = document.getElementById('single-input-container');
+      const multiContainer = document.getElementById('multi-input-container');
+
+      const input = document.getElementById('answer-input');
+      const inputRight = document.getElementById('input-right');
+      const inputLeft = document.getElementById('input-left');
+      const inputLength = document.getElementById('input-length');
+
+      // 重設所有輸入框狀態及動態反饋類別
+      [input, inputRight, inputLeft, inputLength].forEach(inp => {
+        inp.value = '';
+        inp.disabled = false;
+        inp.classList.remove('input-correct', 'input-wrong');
+      });
+
+      const q = questions[currentQIndex];
+
+      if (q.type === 'measurement') {
+        singleContainer.classList.add('hidden');
+        multiContainer.classList.remove('hidden');
+      } else {
+        singleContainer.classList.remove('hidden');
+        multiContainer.classList.add('hidden');
+      }
+
+      updateQuestionDisplay();
+
+      document.getElementById('btn-submit').classList.remove('hidden');
+      document.getElementById('btn-next').classList.add('hidden');
+
+      setTimeout(() => {
+        if (q.type === 'measurement') {
+          inputRight.focus();
+        } else {
+          input.focus();
+        }
+      }, 100);
+    }
+
+    function updateQuestionDisplay() {
+      const t = i18n[currentLang];
+      const q = questions[currentQIndex];
+
+      let modeName = t.unit1;
+      if (currentMode === 'complex_to_single') modeName = t.unit2;
+      else if (currentMode === 'measurement') modeName = t.unit3;
+
+      document.getElementById('quiz-mode-name').innerText = modeName;
+      document.getElementById('quiz-progress-text').innerText = `${t.qProgress} ${currentQIndex + 1} / ${questions.length}`;
+
+      // 顯示當前題目難度標籤
+      const diffTag = document.getElementById('quiz-diff-tag');
+      if (q.diff === 'primary') {
+        diffTag.innerText = t.diffPrimary;
+        diffTag.className = 'diff-tag diff-primary';
+      } else if (q.diff === 'inter') {
+        diffTag.innerText = t.diffInter;
+        diffTag.className = 'diff-tag diff-inter';
+      } else {
+        diffTag.innerText = t.diffAdv;
+        diffTag.className = 'diff-tag diff-adv';
+      }
+
+      const measureArea = document.getElementById('measurement-area');
+
+      if (q.type === 'measurement') {
+        measureArea.classList.remove('hidden');
+        renderMeasurementSVG(q);
+
+        document.getElementById('equation-prefix').innerText = t.prefixLength;
+        document.getElementById('unit-label').innerText = t.unitMm;
+      } else {
+        measureArea.classList.add('hidden');
+        document.getElementById('equation-prefix').innerText = '';
+
+        let exprStr = '';
+        let unitLabel = '';
+
+        if (q.type === 'cm_to_mm') {
+          if (q.format === 'text') {
+            exprStr = currentLang === 'zh' ? `${q.rawNum} 厘米 = ` : `${q.rawNum} cm = `;
+            unitLabel = currentLang === 'zh' ? '毫米' : 'mm';
+          } else {
+            exprStr = `${q.rawNum} cm = `;
+            unitLabel = 'mm';
+          }
+        } else if (q.type === 'mm_to_cm') {
+          if (q.format === 'text') {
+            exprStr = currentLang === 'zh' ? `${q.rawNum} 毫米 = ` : `${q.rawNum} mm = `;
+            unitLabel = currentLang === 'zh' ? '厘米' : 'cm';
+          } else {
+            exprStr = `${q.rawNum} mm = `;
+            unitLabel = 'cm';
+          }
+        } else if (q.type === 'complex_to_single') {
+          if (q.format === 'text') {
+            exprStr = currentLang === 'zh' ? `${q.cmVal} 厘米 ${q.mmVal} 毫米 = ` : `${q.cmVal} cm ${q.mmVal} mm = `;
+            unitLabel = currentLang === 'zh' ? '毫米' : 'mm';
+          } else {
+            exprStr = `${q.cmVal} cm ${q.mmVal} mm = `;
+            unitLabel = 'mm';
+          }
+        }
+
+        document.getElementById('equation-prefix').innerText = exprStr;
+        document.getElementById('unit-label').innerText = unitLabel;
+      }
+
+      document.getElementById('btn-next').innerText = t.nextBtn;
+      document.getElementById('btn-submit').innerText = t.submitBtn;
+    }
+
+    function generateVisualDiagram(q) {
+      const t = i18n[currentLang];
+      if (q.type === 'measurement') {
+        const startCm = (q.startMM / 10).toFixed(1).replace('.0', '');
+        const endCm = (q.endMM / 10).toFixed(1).replace('.0', '');
+        const detailHtml = t.diagramMeasureDetail.replace(/{start}/g, q.startMM)
+                                                 .replace(/{startCm}/g, startCm)
+                                                 .replace(/{end}/g, q.endMM)
+                                                 .replace(/{endCm}/g, endCm)
+                                                 .replace(/{ans}/g, q.ans);
+        return `
+          <div class="visual-diagram-container">
+            <div style="font-weight: bold; color: #2b6cb0; margin-bottom: 8px;">${t.diagramTitle}</div>
+            <div style="font-size: 1rem; color: #2d3748; text-align: left; width: 100%; line-height: 1.8;">
+              ${detailHtml}
+            </div>
+          </div>
+        `;
+      }
+
+      let topBraceText = '';
+      let bottomBraceText = '';
+      let columnsHtml = '';
+
+      if (q.type === 'cm_to_mm') {
+        const count = q.rawNum;
+        topBraceText = currentLang === 'zh' ? `${count} 厘米` : `${count} cm`;
+        bottomBraceText = t.howManyMm;
+
+        let displayCount = count;
+        let isTruncated = false;
+        if (count > 5) {
+          displayCount = 3; 
+          isTruncated = true;
+        }
+
+        for (let i = 0; i < displayCount; i++) {
+          columnsHtml += `
+            <div class="diagram-column">
+              <div class="diagram-cell-top">1 cm</div>
+              <div class="diagram-cell-bottom">10 mm</div>
+            </div>
+          `;
+        }
+
+        if (isTruncated) {
+          columnsHtml += `<div class="diagram-column" style="justify-content: center; align-items: center; padding: 0 10px; font-weight: bold; background: #edf2f7;">...</div>`;
+        }
+      } else if (q.type === 'mm_to_cm') {
+        const cmVal = parseInt(q.ans);
+        topBraceText = currentLang === 'zh' ? `${q.rawNum} 毫米` : `${q.rawNum} mm`;
+        bottomBraceText = t.howManyCm;
+
+        let displayCount = cmVal;
+        let isTruncated = false;
+        if (cmVal > 5) {
+          displayCount = 3;
+          isTruncated = true;
+        }
+
+        for (let i = 0; i < displayCount; i++) {
+          columnsHtml += `
+            <div class="diagram-column">
+              <div class="diagram-cell-top" style="background-color:#fbe389;">10 mm</div>
+              <div class="diagram-cell-bottom" style="background-color:#f4a2a1;">1 cm</div>
+            </div>
+          `;
+        }
+
+        if (isTruncated) {
+          columnsHtml += `<div class="diagram-column" style="justify-content: center; align-items: center; padding: 0 10px; font-weight: bold; background: #edf2f7;">...</div>`;
+        }
+      } else if (q.type === 'complex_to_single') {
+        topBraceText = (q.format === 'text' && currentLang === 'zh') ? `${q.cmVal} 厘米 ${q.mmVal} 毫米` : `${q.cmVal} cm ${q.mmVal} mm`;
+        bottomBraceText = t.howManyMm;
+
+        let displayCount = q.cmVal;
+        let isTruncated = false;
+        if (q.cmVal > 5) {
+          displayCount = 3;
+          isTruncated = true;
+        }
+
+        for (let i = 0; i < displayCount; i++) {
+          columnsHtml += `
+            <div class="diagram-column">
+              <div class="diagram-cell-top">1 cm</div>
+              <div class="diagram-cell-bottom">10 mm</div>
+            </div>
+          `;
+        }
+
+        if (isTruncated) {
+          columnsHtml += `<div class="diagram-column" style="justify-content: center; align-items: center; padding: 0 8px; font-weight: bold; background: #edf2f7;">...</div>`;
+        }
+
+        const mmCellText = (q.format === 'text' && currentLang === 'zh') ? `${q.mmVal} 毫米` : `${q.mmVal} mm`;
+        columnsHtml += `
+          <div class="diagram-column">
+            <div class="diagram-cell-top">${mmCellText}</div>
+            <div class="diagram-cell-bottom">${mmCellText}</div>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="visual-diagram-container">
+          <div style="font-weight: bold; color: #2b6cb0; margin-bottom: 8px;">${t.diagramTitle}</div>
+          <div class="diagram-brace-top">⏞<br>${topBraceText}</div>
+          <div class="diagram-table">${columnsHtml}</div>
+          <div class="diagram-brace-bottom">⏟<br><span style="color:#e53e3e; font-size:1.1rem;">${bottomBraceText}</span></div>
+        </div>
+      `;
+    }
+
+    function checkAnswer() {
+      const q = questions[currentQIndex];
+      const t = i18n[currentLang];
+      const feedback = document.getElementById('feedback-area');
+
+      let isExactMatch = false;
+      let userDisplayAns = "";
+
+      if (q.type === 'measurement') {
+        const inpRight = document.getElementById('input-right');
+        const inpLeft = document.getElementById('input-left');
+        const inpLength = document.getElementById('input-length');
+
+        const valRight = inpRight.value.trim();
+        const valLeft = inpLeft.value.trim();
+        const valLength = inpLength.value.trim();
+
+        if (valRight === '' || valLeft === '' || valLength === '') return;
+
+        const isRightCorrect = (valRight === q.endMM.toString());
+        const isLeftCorrect = (valLeft === q.startMM.toString());
+        const isLengthCorrect = (valLength === q.ans);
+
+        isExactMatch = (isRightCorrect && isLeftCorrect && isLengthCorrect);
+        userDisplayAns = `${valRight} - ${valLeft} = ${valLength}`;
+
+        // 處理單元三專屬輸入框綠色/紅色視覺反饋
+        const evalInputs = [
+          { inp: inpRight, isCorrect: isRightCorrect },
+          { inp: inpLeft, isCorrect: isLeftCorrect },
+          { inp: inpLength, isCorrect: isLengthCorrect }
+        ];
+
+        evalInputs.forEach(item => {
+          if (item.isCorrect) {
+            item.inp.classList.remove('input-wrong');
+            item.inp.classList.add('input-correct');
+          } else {
+            item.inp.classList.remove('input-correct', 'input-wrong');
+            void item.inp.offsetWidth; // 觸發 DOM 重繪以再次發動 shake 動畫
+            item.inp.classList.add('input-wrong');
+            
+            // 答錯框：短暫顯示紅底與搖晃，之後清空輸入文字並移除紅底，方便重試
+            setTimeout(() => {
+              item.inp.value = '';
+              item.inp.classList.remove('input-wrong');
+            }, 600);
+          }
+        });
+
+      } else {
+        const input = document.getElementById('answer-input');
+        const valStr = input.value.trim();
+        if (valStr === '') return;
+
+        isExactMatch = (valStr === q.ans);
+        userDisplayAns = valStr;
+      }
+
+      if (!records[currentQIndex]) {
+        records[currentQIndex] = {
+          qIndex: currentQIndex + 1,
+          questionObj: q,
+          targetAns: q.type === 'measurement' ? `${q.endMM} - ${q.startMM} = ${q.ans}` : q.ans,
+          userFirstWrong: null,
+          isCorrectOnFirstTry: false,
+          solved: false
+        };
+      }
+
+      if (isExactMatch) {
+        if (wrongAttempts === 0) {
+          records[currentQIndex].isCorrectOnFirstTry = true;
+        }
+        records[currentQIndex].solved = true;
+
+        const randomPraise = t.praise[Math.floor(Math.random() * t.praise.length)];
+        feedback.className = "feedback-box feedback-success";
+        feedback.innerHTML = `<strong>${randomPraise}</strong>`;
+        feedback.classList.remove('hidden');
+
+        if (q.type === 'measurement') {
+          document.getElementById('input-right').disabled = true;
+          document.getElementById('input-left').disabled = true;
+          document.getElementById('input-length').disabled = true;
+        } else {
+          document.getElementById('answer-input').disabled = true;
+        }
+
+        document.getElementById('btn-submit').classList.add('hidden');
+        document.getElementById('btn-next').classList.remove('hidden');
+        document.getElementById('btn-next').focus();
+
+      } else {
+        wrongAttempts++;
+        if (records[currentQIndex].userFirstWrong === null) {
+          records[currentQIndex].userFirstWrong = userDisplayAns;
+        }
+
+        if (wrongAttempts < 3) {
+          const randomEnc = t.encourage[Math.floor(Math.random() * t.encourage.length)];
+          let hintText = t.hintCmToMm;
+          if (q.type === 'mm_to_cm') hintText = t.hintMmToCm;
+          else if (q.type === 'complex_to_single') hintText = t.hintComplex;
+          else if (q.type === 'measurement') hintText = t.hintMeasure;
+
+          feedback.className = "feedback-box feedback-warning";
+          feedback.innerHTML = `
+            <div><strong>${randomEnc}</strong></div>
+            <div style="margin-top:6px; font-size:0.95rem; color:#744210;">${hintText}</div>
+          `;
+          feedback.classList.remove('hidden');
+
+          if (q.type !== 'measurement') {
+            document.getElementById('answer-input').value = '';
+            document.getElementById('answer-input').focus();
+          } else {
+            // 單元三：焦點自動回到第一個未答對的輸入框
+            setTimeout(() => {
+              if (!document.getElementById('input-right').classList.contains('input-correct')) {
+                document.getElementById('input-right').focus();
+              } else if (!document.getElementById('input-left').classList.contains('input-correct')) {
+                document.getElementById('input-left').focus();
+              } else {
+                document.getElementById('input-length').focus();
+              }
+            }, 650);
+          }
+
+        } else {
+          feedback.className = "feedback-box feedback-danger";
+          let stepHtml = "";
+
+          if (q.type === 'measurement') {
+            const startCm = (q.startMM / 10).toFixed(1).replace('.0', '');
+            const endCm = (q.endMM / 10).toFixed(1).replace('.0', '');
+            stepHtml = t.stepMeasure.replace(/{start}/g, q.startMM)
+                                    .replace(/{startCm}/g, startCm)
+                                    .replace(/{end}/g, q.endMM)
+                                    .replace(/{endCm}/g, endCm)
+                                    .replace(/{ans}/g, q.ans);
+          } else if (q.type === 'cm_to_mm') {
+            stepHtml = t.stepCmToMm.replace(/{num}/g, q.rawNum).replace(/{ans}/g, q.ans);
+          } else if (q.type === 'mm_to_cm') {
+            stepHtml = t.stepMmToCm.replace(/{num}/g, q.rawNum).replace(/{ans}/g, q.ans);
+          } else {
+            stepHtml = t.stepComplex.replace(/{cm}/g, q.cmVal)
+                                    .replace(/{cmVal}/g, q.cmVal * 10)
+                                    .replace(/{mm}/g, q.mmVal)
+                                    .replace(/{ans}/g, q.ans);
+          }
+
+          const visualDiagramHtml = generateVisualDiagram(q);
+
+          feedback.innerHTML = `
+            <div style="font-size:0.95rem; line-height:1.6;">
+              <strong>${t.stepTitle}</strong><br>
+              ${stepHtml}
+            </div>
+            ${visualDiagramHtml}
+          `;
+          feedback.classList.remove('hidden');
+
+          if (q.type === 'measurement') {
+            document.getElementById('input-right').disabled = true;
+            document.getElementById('input-left').disabled = true;
+            document.getElementById('input-length').disabled = true;
+          } else {
+            document.getElementById('answer-input').disabled = true;
+          }
+
+          document.getElementById('btn-submit').classList.add('hidden');
+          document.getElementById('btn-next').classList.remove('hidden');
+          document.getElementById('btn-next').focus();
+        }
+      }
+    }
+
+    function nextQuestion() {
+      currentQIndex++;
+      if (currentQIndex < questions.length) {
+        loadQuestion();
+      } else {
+        showReport();
+      }
+    }
+
+    function formatDate(d) {
+      const pad = (n) => n.toString().padStart(2, '0');
+      return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    }
+
+    function formatDuration(start, end) {
+      const diffInSeconds = Math.max(0, Math.floor((end - start) / 1000));
+      const mins = Math.floor(diffInSeconds / 60);
+      const secs = diffInSeconds % 60;
+
+      if (currentLang === 'en') {
+        if (mins > 0) return `${mins} min ${secs} sec`;
+        return `${secs} sec`;
+      } else {
+        if (mins > 0) return `${mins}分鐘${String(secs).padStart(2, '0')}秒`;
+        return `${secs}秒`;
+      }
+    }
+
+    function getQuestionTitleText(q) {
+      const isZh = currentLang === 'zh';
+      if (q.type === 'measurement') {
+        const itemName = isZh ? i18n.zh.itemsName[q.itemType] : i18n.en.itemsName[q.itemType];
+        return `${itemName} ( ${q.startMM}mm ➔ ${q.endMM}mm )`;
+      } else if (q.type === 'cm_to_mm') {
+        const unit1Str = q.format === 'text' ? (isZh ? '厘米' : 'cm') : 'cm';
+        const unit2Str = q.format === 'text' ? (isZh ? '毫米' : 'mm') : 'mm';
+        return `${q.rawNum} ${unit1Str} = ____ ${unit2Str}`;
+      } else if (q.type === 'mm_to_cm') {
+        const unit1Str = q.format === 'text' ? (isZh ? '毫米' : 'mm') : 'mm';
+        const unit2Str = q.format === 'text' ? (isZh ? '厘米' : 'cm') : 'cm';
+        return `${q.rawNum} ${unit1Str} = ____ ${unit2Str}`;
+      } else {
+        if (q.format === 'text' && isZh) {
+          return `${q.cmVal} 厘米 ${q.mmVal} 毫米 = ____ 毫米`;
+        }
+        return `${q.cmVal} cm ${q.mmVal} mm = ____ mm`;
+      }
+    }
+
+    function showReport() {
+      const endTimeObj = new Date();
+      const t = i18n[currentLang];
+
+      document.getElementById('page-quiz').classList.add('hidden');
+      document.getElementById('page-report').classList.remove('hidden');
+      
+      // 報告界面同樣隱藏語言按鈕
+      document.getElementById('lang-toggle-btn').classList.add('hidden');
+
+      document.getElementById('report-main-title').innerText = t.reportTitle;
+      document.getElementById('lbl-start-time').innerText = t.startTime;
+      document.getElementById('lbl-end-time').innerText = t.endTime;
+      document.getElementById('lbl-duration').innerText = t.durationTime;
+      document.getElementById('lbl-total-correct').innerText = t.totalCorrect;
+      document.getElementById('lbl-accuracy').innerText = t.accuracy;
+      document.getElementById('lbl-mastery-title').innerText = t.masteryTitle;
+      document.getElementById('lbl-correct-title').innerText = t.correctTitle;
+      document.getElementById('lbl-wrong-title').innerText = t.wrongTitle;
+
+      document.getElementById('lbl-btn-download').innerText = t.btnDownload;
+      document.getElementById('lbl-btn-retry').innerText = t.btnRetry;
+      document.getElementById('lbl-btn-home').innerText = t.btnHome;
+
+      document.getElementById('val-start-time').innerText = formatDate(startTimeObj);
+      document.getElementById('val-end-time').innerText = formatDate(endTimeObj);
+      document.getElementById('val-duration').innerText = formatDuration(startTimeObj, endTimeObj);
+
+      let correctCount = 0;
+      records.forEach(r => {
+        if (r.isCorrectOnFirstTry) correctCount++;
+      });
+
+      const total = records.length;
+      const accuracyPct = Math.round((correctCount / total) * 100);
+
+      document.getElementById('val-correct-count').innerText = `${correctCount} / ${total}`;
+      document.getElementById('val-accuracy').innerText = `${accuracyPct}%`;
+
+      let modeName = t.unit1;
+      if (currentMode === 'complex_to_single') modeName = t.unit2;
+      else if (currentMode === 'measurement') modeName = t.unit3;
+
+      document.getElementById('report-unit-name').innerText = `1. ${modeName}`;
+      document.getElementById('val-unit-mastery').innerText = `${correctCount} / ${total} (${accuracyPct}%)`;
+
+      const correctContainer = document.getElementById('correct-list-container');
+      correctContainer.innerHTML = '';
+      const correctItems = records.filter(r => r.isCorrectOnFirstTry);
+
+      if (correctItems.length === 0) {
+        correctContainer.innerHTML = `<div style="font-size:0.95rem; color:#718096; padding-left:5px;">${t.noCorrect}</div>`;
+      } else {
+        correctItems.forEach(item => {
+          const qText = t.questionLabel.replace('{n}', item.qIndex);
+          const qExprText = getQuestionTitleText(item.questionObj);
+          const unitStr = currentLang === 'zh' ? item.questionObj.targetUnit : item.questionObj.targetUnitEn;
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'item-card-correct';
+          itemDiv.innerHTML = `
+            <div class="item-q-title">${qText} : ${qExprText}</div>
+            <div class="item-ans-text">${t.ansLabel} : ${item.targetAns} ${unitStr}</div>
+          `;
+          correctContainer.appendChild(itemDiv);
+        });
+      }
+
+      const wrongContainer = document.getElementById('wrong-list-container');
+      wrongContainer.innerHTML = '';
+      const wrongItems = records.filter(r => !r.isCorrectOnFirstTry);
+
+      if (wrongItems.length === 0) {
+        wrongContainer.innerHTML = `<div style="font-size:0.95rem; color:#38a169; padding-left:5px;">${t.noWrong}</div>`;
+      } else {
+        wrongItems.forEach(item => {
+          const qText = t.questionLabel.replace('{n}', item.qIndex);
+          const qExprText = getQuestionTitleText(item.questionObj);
+          const userAnsDisplay = item.userFirstWrong !== null ? item.userFirstWrong : '-';
+          const unitStr = currentLang === 'zh' ? item.questionObj.targetUnit : item.questionObj.targetUnitEn;
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'item-card-wrong';
+          itemDiv.innerHTML = `
+            <div class="item-q-title">${qText} : ${qExprText}</div>
+            <div class="item-ans-text">${t.yourAnsLabel} : ${userAnsDisplay} | ${t.correctAnsLabel} : ${item.targetAns} ${unitStr}</div>
+          `;
+          wrongContainer.appendChild(itemDiv);
+        });
+      }
+    }
+
+    function downloadReportImage() {
+      const element = document.getElementById('report-card-to-capture');
+      if (!element) return;
+
+      html2canvas(element, {
+        scale: 2,
+        backgroundColor: '#ffffff',
+        useCORS: true
+      }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `Millimetre_Report_${new Date().toISOString().slice(0,10)}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      }).catch(err => {
+        alert("圖片下載失敗，請稍微重試：" + err);
+      });
+    }
+
+    function openModal(title, msg, cancelTxt, confirmTxt, onConfirm) {
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal-msg').innerText = msg;
+      document.getElementById('modal-cancel-btn').innerText = cancelTxt;
+      document.getElementById('modal-confirm-btn').innerText = confirmTxt;
+      modalActionCallback = onConfirm;
+      document.getElementById('custom-modal').classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('custom-modal').classList.remove('active');
+    }
+
+    function confirmModalAction() {
+      closeModal();
+      if (modalActionCallback) modalActionCallback();
+    }
+
+    function askReturnHome() {
+      const t = i18n[currentLang];
+      openModal(
+        t.modalReturnTitle,
+        t.modalReturnMsg,
+        t.modalCancel || 'Cancel',
+        t.modalStart || 'Confirm',
+        goHome
+      );
+    }
+
+    function retryPractice() {
+      startQuiz(currentMode || 'measurement');
+    }
+
+    function goHome() {
+      document.getElementById('page-quiz').classList.add('hidden');
+      document.getElementById('page-report').classList.add('hidden');
+      document.getElementById('page-home').classList.remove('hidden');
+      
+      // 返回首頁時重新顯示語言切換按鈕
+      document.getElementById('lang-toggle-btn').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
